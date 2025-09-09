@@ -1,21 +1,17 @@
 def solution(k, dungeons):
     n = len(dungeons)
-    visited = [False]*n
-    best = 0
+    visited = [False] * n
+    return dfs(k, dungeons, visited, 0)
 
-    def dfs(cur, cnt):
-        nonlocal best
-        best = max(best, cnt)
+def dfs(cur_fatigue, dungeons, visited, count):
+    max_count = count
 
-        # 가지치기(남은 걸 전부 가도 갱신 못하면 중단)
-        if cnt + (n - sum(visited)) <= best:
-            return
+    for i in range(len(dungeons)):
+        need, cost = dungeons[i]
+        if not visited[i] and cur_fatigue >= need:
+            visited[i] = True
+            result = dfs(cur_fatigue - cost, dungeons, visited, count + 1)
+            max_count = max(max_count, result)
+            visited[i] = False  # 백트래킹
 
-        for i, (need, cost) in enumerate(dungeons):
-            if not visited[i] and cur >= need:
-                visited[i] = True
-                dfs(cur - cost, cnt + 1)
-                visited[i] = False
-
-    dfs(k, 0)
-    return best
+    return max_count
