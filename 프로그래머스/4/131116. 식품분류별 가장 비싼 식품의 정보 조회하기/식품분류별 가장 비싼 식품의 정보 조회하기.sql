@@ -8,3 +8,13 @@ SELECT FOOD_PRODUCT.CATEGORY, FOOD_PRODUCT.PRICE, FOOD_PRODUCT.PRODUCT_NAME
 FROM FOOD_PRODUCT JOIN MAXS ON FOOD_PRODUCT.CATEGORY = MAXS.CATEGORY
     AND FOOD_PRODUCT.PRICE = MAXS.PRICE
 ORDER BY 2 DESC
+
+# SELECT CATEGORY, PRICE AS MAX_PRICE, PRODUCT_NAME
+# FROM FOOD_PRODUCT
+# WHERE (CATEGORY, PRICE) IN (SELECT CATEGORY, MAX(PRICE)
+#                             FROM FOOD_PRODUCT
+#                             WHERE CATEGORY IN ('과자', '국', '김치', '식용유')
+#                             GROUP BY CATEGORY)
+# ORDER BY 2 DESC;
+# 처음 의도한게 이거였는데 where ()이렇게 사이에 넣어야 작동하는지 까먹었다.
+# 그리고 row_number 같은 partition 함수들도 알아둬야할듯
